@@ -62,7 +62,7 @@ public class MyNoteActivity extends AppCompatActivity {
                 String date = etDate.getText().toString();
                 String contention = etContention.getText().toString();
                 SQLiteDatabase database = dbHelper.getWritableDatabase();
-                String query="DELETE * FROM Notes WHERE NOTE_NAME = '"+name+"'";
+                String query="DELETE FROM " + DBHelper.TABLE_NAME + " WHERE " + DBHelper.NOTE_NAME + " LIKE '"+name+"'";
                 database.execSQL(query);
 
                 dbHelper.close();
