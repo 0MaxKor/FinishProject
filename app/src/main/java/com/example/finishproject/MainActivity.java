@@ -33,7 +33,7 @@ Button goto_notes;
         goto_notes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, MyNoteActivity.class);
+                Intent i = new Intent(MainActivity.this, NoteLobbyActivity.class);
                 startActivity(i);
             }
         });
