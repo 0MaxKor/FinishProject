@@ -60,6 +60,13 @@ dbHelper = new DBHelper(this);
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(NoteLobbyActivity.this,noteArrayList.get(i).toString(), Toast.LENGTH_SHORT).show();
+
+
+
+
+            }
+            void addAndDelete(View view){
+
             }
         });
 

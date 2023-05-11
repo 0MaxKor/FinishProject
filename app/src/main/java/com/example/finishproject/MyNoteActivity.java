@@ -21,7 +21,6 @@ public class MyNoteActivity extends AppCompatActivity {
     DBHelper dbHelper;
     Button del;
     Button add;
-    Button read;
     EditText etDate;
     EditText etName;
     EditText etContention;
@@ -35,7 +34,6 @@ public class MyNoteActivity extends AppCompatActivity {
 
         del = findViewById(R.id.btnDel);
         add = findViewById(R.id.btnAdd);
-        read = findViewById(R.id.btnRead);
 
         etDate  = findViewById(R.id.etDate);
         etName  = findViewById(R.id.etName);
@@ -83,39 +81,6 @@ public class MyNoteActivity extends AppCompatActivity {
             dbHelper.close();
 
 
-        });
-        read.setOnClickListener(view -> {
-
-
-            String name = etName.getText().toString();
-            String date = etDate.getText().toString();
-            String contention = etContention.getText().toString();
-            SQLiteDatabase database = dbHelper.getWritableDatabase();
-            ContentValues values = new ContentValues();
-
-            Cursor cursor = database.query(DBHelper.TABLE_NAME, null,null,null,null,null,null);
-
-            if(cursor.moveToFirst()){
-                int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-                int nameIndex = cursor.getColumnIndex(DBHelper.NOTE_NAME);
-                int contentionIndex = cursor.getColumnIndex(DBHelper.KEY_CONTENTION);
-                int dateIndex = cursor.getColumnIndex(DBHelper.KEY_DATE);
-
-                do {
-                    String d ="".toString();
-                    array_of_names.add(array_of_names.size(), cursor.getString(nameIndex));
-                    d+= ("\n"+cursor.getString(nameIndex)+": "+"\n"+
-                            cursor.getString(contentionIndex)+"\n"+"Добавлено: "+
-                            cursor.getString(dateIndex)+"\n" +"_______________________");
-
-                }while (cursor.moveToNext());
-
-            }else
-            cursor.close();
-
-
-
-            dbHelper.close();
         });
 
     }
