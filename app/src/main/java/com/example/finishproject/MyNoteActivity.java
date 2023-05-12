@@ -127,6 +127,7 @@ public class MyNoteActivity extends AppCompatActivity {
 
 
 
+
             dbHelper.close();
         });
 
