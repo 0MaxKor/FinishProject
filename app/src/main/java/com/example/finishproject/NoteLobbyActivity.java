@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ListActivity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -65,9 +66,11 @@ dbHelper = new DBHelper(this);
 
 
             }
-            void addAndDelete(View view){
 
-            }
         });
-
-}   }
+    }
+    public void addAndDelete(View view){
+        Intent u = new Intent(NoteLobbyActivity.this, MyNoteActivity.class);
+        startActivity(u);
+    }
+}
