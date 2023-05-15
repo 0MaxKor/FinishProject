@@ -3,6 +3,7 @@ package com.example.finishproject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -69,6 +72,7 @@ public class MyNoteActivity extends AppCompatActivity {
             String date = etDate.getText().toString();
             String contention = etContention.getText().toString();
             if(name!=""||name!=" "||contention!=""||contention!=" "||name!=null||contention!=null){
+
                 SQLiteDatabase database = dbHelper.getWritableDatabase();
                 ContentValues values = new ContentValues();
                 values.put(DBHelper.NOTE_NAME, name);
@@ -86,4 +90,7 @@ public class MyNoteActivity extends AppCompatActivity {
 
         });
 
-}}
+}
+
+
+}
