@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
@@ -62,7 +63,7 @@ Button goto_notes;
 
         Weather wiv = d.fromJson(w,Weather.class);
 
-            Log.i("TTTTAAAAG", d.toJson(wiv.list.get(0).toString()).toString()  +"\n");
+            Log.i("TTTTAAAAG",wiv.list.get(0).weatherr.description.toString());
 
 
 
