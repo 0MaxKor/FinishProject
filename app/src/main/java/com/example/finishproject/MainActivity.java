@@ -17,20 +17,30 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Scanner;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainActivity extends AppCompatActivity {
 
 Button goto_notes;
+TextView txt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+txt=findViewById(R.id.textidd);
         Gson d = new Gson();
         String w = "{\"message\":\"like\",\"cod\":\"200\",\"count\":5,\"list\"" +
                 ":[{\"id\":555312,\"name\":\"Ivanovo\",\"coord\"" +
@@ -60,10 +70,46 @@ Button goto_notes;
                 ":1683994482,\"wind\":{\"speed\":4.34,\"deg\":354},\"sys\":{\"country\":\"RU\"},\"rain\":null,\"snow\"" +
                 ":null,\"clouds\":{\"all\":59},\"weather\":[{\"id\":803,\"main\":\"Clouds\",\"description\"" +
                 ":\"broken clouds\",\"icon\":\"04d\"}]}]}";
+        String ss ="{\"message\":\"like\",\"cod\":\"200\",\"count\":4,\"list\":[{\"id\":524901,\"name\":\"Moscow\",\"coord\":{\"lat\":55.7522,\"lon\":37.6156},\"main\":{\"temp\":292.19,\"feels_like\":290.96,\"temp_min\":291.69,\"temp_max\":292.9,\"pressure\":1022,\"humidity\":31,\"sea_level\":1022,\"grnd_level\":1005},\"dt\":1684159681,\"wind\":{\"speed\":1.18,\"deg\":135},\"sys\":{\"country\":\"RU\"},\"rain\":null,\"snow\":null,\"clouds\":{\"all\":7},\"weather\":[{\"id\":800,\"main\":\"Clear\",\"description\":\"clearsky\",\"icon\":\"01d\"}]},{\"id\":5601538,\"name\":\"Moscow\",\"coord\":{\"lat\":46.7324,\"lon\":-117.0002},\"main\":{\"temp\":290.1,\"feels_like\":289.39,\"temp_min\":288.96,\"temp_max\":290.81,\"pressure\":1020,\"humidity\":59},\"dt\":1684160081,\"wind\":{\"speed\":4.12,\"deg\":100},\"sys\":{\"country\":\"US\"},\"rain\":null,\"snow\":null,\"clouds\":{\"all\":0},\"weather\":[{\"id\":800,\"main\":\"Clear\",\"description\":\"clearsky\",\"icon\":\"01d\"}]},{\"id\":5202009,\"name\":\"Moscow\",\"coord\":{\"lat\":41.3368,\"lon\":-75.5185},\"main\":{\"temp\":286.14,\"feels_like\":284.83,\"temp_min\":283.68,\"temp_max\":288.9,\"pressure\":1016,\"humidity\":51},\"dt\":1684159777,\"wind\":{\"speed\":2.06,\"deg\":250},\"sys\":{\"country\":\"US\"},\"rain\":null,\"snow\":null,\"clouds\":{\"all\":0},\"weather\":[{\"id\":800,\"main\":\"Clear\",\"description\":\"clearsky\",\"icon\":\"01d\"}]},{\"id\":524894,\"name\":\"Moscow\",\"coord\":{\"lat\":55.7617,\"lon\":37.6067},\"main\":{\"temp\":292.11,\"feels_like\":290.87,\"temp_min\":291.59,\"temp_max\":292.81,\"pressure\":1022,\"humidity\":31,\"sea_level\":1022,\"grnd_level\":1003},\"dt\":1684159511,\"wind\":{\"speed\":1.19,\"deg\":134},\"sys\":{\"country\":\"RU\"},\"rain\":null,\"snow\":null,\"clouds\":{\"all\":7},\"weather\":[{\"id\":800,\"main\":\"Clear\",\"description\":\"clearsky\",\"icon\":\"01d\"}]}]}";
 
-        Weather wiv = d.fromJson(w,Weather.class);
 
-            Log.i("TTTTAAAAG",wiv.list.get(0).weatherr.description.toString());
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://api.openweathermap.org/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        WeatherServiceLinker wservice = retrofit.create(WeatherServiceLinker.class);
+       // Call<Weather> call = wservice.w("Ivanovo","1ddd6aec17416c218d71d7b9e2cb3b0a");
+        Call<Weather> cq = wservice.w("Canberra","like","1ddd6aec17416c218d71d7b9e2cb3b0a");
+
+            cq.enqueue(new Callback<Weather>() {
+                @Override
+                public void onResponse(Call<Weather> call, Response<Weather> response) {
+                    Log.i("tagrr", "s");
+
+
+                    Log.i("tagrr", (int)(response.body().list.get(0).main.temp-273)+"");
+
+
+                }
+
+                @Override
+                public void onFailure(Call<Weather> call, Throwable t) {
+                    Log.e("tagrr", t.getMessage());
+                }
+            });
+
+
+
+
+        // http://api.openweathermap.org/data/2.5/find/?q=Ivanovo&type=like&APPID=1ddd6aec17416c218d71d7b9e2cb3b0a
+
+
+
+        Weather wax = d.fromJson(w,Weather.class);
+
+            Log.i("TTTTAAAAG",wax.list.get(0).name+"");
+
 
 
 
