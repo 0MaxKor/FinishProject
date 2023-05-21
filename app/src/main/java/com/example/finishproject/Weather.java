@@ -37,12 +37,12 @@ public class Weather {
         Coord coord;
         Main main;
         long dt;
-        Wind wind;
-        Sys sys;
+        wind wind;
+        sys sys;
         String rain;
         String snow;
-        Clouds clouds;
-        Weatherr weatherr;
+        clouds clouds;
+        ArrayList<weatherr>weather;
 
         @Override
         public String toString() {
@@ -57,7 +57,7 @@ public class Weather {
                     ", rain='" + rain + '\'' +
                     ", snow='" + snow + '\'' +
                     ", clouds=" + clouds +
-                    ", weatherr=" + weatherr +
+                    ", weather=" + weather +
                     '}';
         }
 
@@ -83,32 +83,38 @@ public class Weather {
     }
 
 
-    class Wind {
+    class wind {
         double speed;
         int deg;
 
     }
 
 
-    class Sys {
+    class sys {
         String country;
 
     }
 
 
-    class Clouds {
+    class clouds {
         int all;
 
     }
 
 
-    class Weatherr {
-        int id;
-        String main;
-        String description;
-        String icon;
 
-    }
+
+
+
+
+        class weatherr{
+            int id;
+            String main;
+            String description;
+            String icon;
+
+
+        }
 
 
 }

@@ -29,6 +29,10 @@ public class NoteLobbyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_note_lobby);
         lvNotes=findViewById(R.id.lvNotes);
         noteArrayList = new ArrayList<>();
+        int city_temp = getIntent().getIntExtra("c_temp",1);
+        String city_name = getIntent().getStringExtra("c_name");
+        String city_weather = getIntent().getStringExtra("c_desc");
+        //Toast.makeText(this, city_name+", "+city_weather+", temperature = "+city_temp+" degrees.", Toast.LENGTH_SHORT).show();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,noteArrayList);
 dbHelper = new DBHelper(this);
@@ -37,7 +41,12 @@ dbHelper = new DBHelper(this);
         Cursor cursor = database.query(DBHelper.TABLE_NAME, null,null,null,null,null,null);
 
 
-
+//        String query="DELETE FROM " + DBHelper.TABLE_NAME + " WHERE " + DBHelper.NOTE_NAME + " LIKE '"+"WEATHER"+"'";
+//        database.execSQL(query);
+//         query="DELETE FROM " + DBHelper.TABLE_NAME + " WHERE " + DBHelper.NOTE_NAME + " LIKE '"+"TEMPER"+"'";
+//         database.execSQL(query);
+//         query="DELETE FROM " + DBHelper.TABLE_NAME + " WHERE " + DBHelper.NOTE_NAME + " LIKE '"+"CITYNAME"+"'";
+//         database.execSQL(query);
 
 
 
