@@ -52,8 +52,8 @@ int city_temperature;
 String city_name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+      StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+       StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -114,7 +114,7 @@ String city_name;
                     city_temperature=(int)((response.body().list.get(0).main.temp)-273);
 
 
-                        Toast.makeText(MainActivity.this, (int)((response.body().list.get(0).main.temp)-273)+"", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, city_name+", t="+(int)((response.body().list.get(0).main.temp)-273)+", "+city_weather, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -122,6 +122,8 @@ String city_name;
                         Log.e("tagrr", t.getMessage());
                     }
                 });
+
+
 
 
             }

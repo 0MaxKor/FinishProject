@@ -24,5 +24,10 @@
         android:background="#86FA00"
         android:text="Add/delete note"
         android:onClick="addAndDelete"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btt"
+        />
 
 </LinearLayout>
