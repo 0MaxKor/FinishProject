@@ -69,6 +69,7 @@ public class MyNoteActivity extends AppCompatActivity {
                 dbHelper.close();
             }
 
+
         });
         add.setOnClickListener(viev-> {
 
@@ -82,14 +83,14 @@ public class MyNoteActivity extends AppCompatActivity {
                 values.put(DBHelper.NOTE_NAME, name);
                 values.put(DBHelper.KEY_CONTENTION, contention);
                 values.put(DBHelper.KEY_DATE, date);
-                // TODO: 27.03.2023
                 database.insert(DBHelper.TABLE_NAME,null, values);
+
                 Toast.makeText(this, "Создана 1 заметка", Toast.LENGTH_SHORT).show();
 
                 dbHelper.close();
             }else {
                 Toast.makeText(this, "Заполните все поля ", Toast.LENGTH_SHORT).show();
-
+                //-2183 40 270 -2192 49 243 -1993 61 7 5
         }
 
         });

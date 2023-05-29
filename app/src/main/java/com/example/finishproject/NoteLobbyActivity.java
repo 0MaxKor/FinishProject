@@ -27,12 +27,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class NoteLobbyActivity extends AppCompatActivity {
-    String weatherString;
+    String translateString;
     ListView lvNotes;
     ArrayList<String>noteArrayList;
 
     DBHelper dbHelper;
     Button btt;
+    String spacialString="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +51,12 @@ public class NoteLobbyActivity extends AppCompatActivity {
         btt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 String t =defWeather("Ivanovo","1ddd6aec17416c218d71d7b9e2cb3b0a","temperature");
-                 String d =defWeather("Ivanovo","1ddd6aec17416c218d71d7b9e2cb3b0a","description");
-                Toast.makeText(NoteLobbyActivity.this,  "t="+t+", desc: "+d, Toast.LENGTH_SHORT).show();
+                Retrofit retrofit  = new Retrofit.Builder()
+                        .baseUrl("http://api.openweathermap.org/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                defWeather(retrofit,"Ivanovo",2);
+
             }
         });
 
@@ -105,15 +109,7 @@ dbHelper = new DBHelper(this);
     }
 
 
-    String translate(String text, String from, String to){
-
-       String[] translated_text = new String[1];
-
-
-        Retrofit transRet = new Retrofit.Builder()
-                .baseUrl("https://www.googleapis.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public void translate(Retrofit transRet, String text, String from, String to){
 
         TranslateLinker translator = transRet.create(TranslateLinker.class);
 
@@ -122,7 +118,7 @@ dbHelper = new DBHelper(this);
         trans.enqueue(new Callback<Translator>() {
             @Override
             public void onResponse(Call<Translator> call, Response<Translator> response) {
-               translated_text[0] =  response.body().data.translations.get(0).translatedText;
+               translateString =  response.body().data.translations.get(0).translatedText;
             }
 
             @Override
@@ -130,34 +126,37 @@ dbHelper = new DBHelper(this);
 
             }
         });
-
-        return translated_text[0];
     }
-    String defWeather(String city, String apikey, String what){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.openweathermap.org/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public void defWeather(Retrofit retrofit, String city,int cod) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        String mas[]= new String[3];
 
         WeatherServiceLinker ws = retrofit.create(WeatherServiceLinker.class);
-        Call<Weather> call = ws.w(city,"like",apikey);
+        Call<Weather> call = ws.w(city, "like", "1ddd6aec17416c218d71d7b9e2cb3b0a");
         call.enqueue(new Callback<Weather>() {
             @Override
             public void onResponse(Call<Weather> call, Response<Weather> response) {
-                Log.i("TTTAAA",response.body().list.get(0).weather.get(0).description);
-                if(what.equals("temperature")){
-                    weatherString = response.body().list.get(0).main.temp+"";
-                }else if(what.equals("description")){
-                    weatherString=response.body().list.get(0).weather.get(0).description;
+                if(cod==0){
+                    spacialString=response.body().list.get(0).name;
+                }else if(cod==1){
+                    spacialString=(response.body().list.get(0).main.temp-273)+"";
+                }else if(cod==2){
+                    spacialString=response.body().list.get(0).weather.get(0).main;
                 }
+                Log.i("ANSS","Resp");
+                Log.i("ANSS",response.body().list.get(0).name+"   ---   "+(response.body().list.get(0).main.temp-273)+"   ---   "+response.body().list.get(0).weather.get(0).main);
+                Log.i("ANSS", spacialString);
+
 
             }
 
             @Override
             public void onFailure(Call<Weather> call, Throwable t) {
-
+                Log.i("ANSS","Fail");
             }
         });
-        return weatherString;
+
+
     }
 }
