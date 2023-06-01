@@ -113,7 +113,8 @@ String translateString="";
 //                });
 
 defWeather(retrofit,"Ivanovo",2);
-translate(transRet,"GOOD", "en", "ru");
+translate(transRet,spacialString, "en", "");
+Log.i("WEATHER",translateString);
 
 
 
@@ -127,9 +128,6 @@ translate(transRet,"GOOD", "en", "ru");
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, NoteLobbyActivity.class);
-                i.putExtra("c_name", city_name);
-                i.putExtra("c_temp", city_temperature);
-                i.putExtra("c_desc", city_weather);
                 startActivity(i);
             }
         });
