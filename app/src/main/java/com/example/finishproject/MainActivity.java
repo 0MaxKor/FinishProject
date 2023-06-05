@@ -50,10 +50,8 @@ String spacialString="";
 Button btn_temp;
 EditText et_city;
 TextView tv_temp;
-String city_weather;
-int city_temperature;
-String city_name;
 String translateString="";
+int c=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +60,11 @@ String translateString="";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+//if(DBHelper.DATABASE_VERSION==1 && c==0){
+//    Intent t = new Intent(MainActivity.this,SettingActyvityDB.class);
+//    startActivity(t);
+//}
+c++;
         btn_temp=findViewById(R.id.btntemp);
         tv_temp=findViewById(R.id.tvtemp);
          et_city = findViewById(R.id.etcity);
@@ -116,14 +118,8 @@ defWeather(retrofit,"Ivanovo",2);
 translate(transRet,spacialString, "en", "");
 Log.i("WEATHER",translateString);
 
-
-
-
             }
         });
-
-
-
         goto_notes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,7 +135,6 @@ Log.i("WEATHER",translateString);
     public void defWeather(Retrofit retrofit, String city,int cod) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        String mas[]= new String[3];
 
         WeatherServiceLinker ws = retrofit.create(WeatherServiceLinker.class);
         Call<Weather> call = ws.w(city, "like", "1ddd6aec17416c218d71d7b9e2cb3b0a");
@@ -188,4 +183,5 @@ Log.i("WEATHER",translateString);
             }
         });
     }
+
 }

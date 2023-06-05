@@ -28,7 +28,6 @@ public class MyNoteActivity extends AppCompatActivity {
     DBHelper dbHelper;
     Button del;
     Button add;
-    EditText etDate;
     EditText etName;
     EditText etContention;
 
@@ -43,7 +42,6 @@ public class MyNoteActivity extends AppCompatActivity {
         del = findViewById(R.id.btnDel);
         add = findViewById(R.id.btnAdd);
 
-        etDate  = findViewById(R.id.etDate);
         etName  = findViewById(R.id.etName);
         etContention  = findViewById(R.id.etContention);
 
@@ -61,7 +59,7 @@ public class MyNoteActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String name = etName.getText().toString();
-                String date = etDate.getText().toString();
+
                 SQLiteDatabase database = dbHelper.getWritableDatabase();
                 String query="DELETE FROM " + DBHelper.TABLE_NAME + " WHERE " + DBHelper.NOTE_NAME + " LIKE '"+name+"'";
                 database.execSQL(query);
@@ -74,7 +72,6 @@ public class MyNoteActivity extends AppCompatActivity {
         add.setOnClickListener(viev-> {
 
             String name = etName.getText().toString();
-            String date = etDate.getText().toString();
             String contention = etContention.getText().toString();
             if(name!=""||name!=" "||contention!=""||contention!=" "||name!=null||contention!=null){
 
@@ -82,7 +79,6 @@ public class MyNoteActivity extends AppCompatActivity {
                 ContentValues values = new ContentValues();
                 values.put(DBHelper.NOTE_NAME, name);
                 values.put(DBHelper.KEY_CONTENTION, contention);
-                values.put(DBHelper.KEY_DATE, date);
                 database.insert(DBHelper.TABLE_NAME,null, values);
 
                 Toast.makeText(this, "Создана 1 заметка", Toast.LENGTH_SHORT).show();
@@ -91,7 +87,7 @@ public class MyNoteActivity extends AppCompatActivity {
             }else {
                 Toast.makeText(this, "Заполните все поля ", Toast.LENGTH_SHORT).show();
                 //-2183 40 270 -2192 49 243 -1993 61 7 5
-        }
+            }
 
         });
 

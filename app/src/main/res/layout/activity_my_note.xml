@@ -18,18 +18,14 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name: "
+        android:hint="Название: "
         android:id="@+id/etName"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Contention: "
+        android:hint="Содержание: "
         android:id="@+id/etContention"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Date: "
-        android:id="@+id/etDate"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,13 +36,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Add"
-            android:id="@+id/btnAdd"/>
+            android:id="@+id/btnAdd"
+            android:backgroundTint="#4CAF50"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Delete"
-            android:id="@+id/btnDel"/>
+            android:id="@+id/btnDel"
+            android:backgroundTint="#C32828"/>
 
     </LinearLayout>
     <CalendarView

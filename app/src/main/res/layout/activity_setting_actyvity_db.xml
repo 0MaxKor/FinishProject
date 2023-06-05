@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingActyvityDB"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#69ABDF"
+        android:textSize="26dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Перед первым использованием заполните следующие поля:"
+        android:textColor="#F3EBEB"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etcity_forset"
+        android:hint="Ваш город:"
+        android:textColorHint="#26DAF1"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etlang_forset"
+        android:hint="Ваш язык:"
+        android:textColorHint="#26DAF1"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Готово"
+        android:layout_gravity="center"
+        android:id="@+id/ready"/>
+
+</LinearLayout>
