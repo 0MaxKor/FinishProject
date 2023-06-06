@@ -7,27 +7,38 @@
     tools:context=".NoteLobbyActivity">
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:textSize="25dp"
+            android:text="Заметки"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textStyle="italic"
+            android:background="@color/ic_launcher_background"
+            />
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/lvNotes"/>
+            android:id="@+id/lvNotes"
+            android:layout_weight="1"/>
 
     </LinearLayout>
+
     <Button
+        android:id="@+id/btn_addAndDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:id="@+id/btn_addAndDelete"
-        android:background="#86FA00"
-        android:text="Add/delete note"
-        android:onClick="addAndDelete"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btt"
-        />
+        android:backgroundTint="#4CAF50"
+        android:onClick="addAndDelete"
+        android:text="Добавить заметку" />
+
 
 </LinearLayout>

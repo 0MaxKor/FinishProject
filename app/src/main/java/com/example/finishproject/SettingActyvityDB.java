@@ -5,14 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.vcn.VcnConfig;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SettingActyvityDB extends AppCompatActivity {
 EditText city;
-EditText lang;
+CheckBox lang_en;
+CheckBox lang_ru;
 Button btn_go;
+boolean cango=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +25,8 @@ Button btn_go;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_actyvity_db);
         city=findViewById(R.id.etcity_forset);
-        lang=findViewById(R.id.etlang_forset);
+        lang_en=findViewById(R.id.ch_en);
+        lang_ru=findViewById(R.id.ch_ru);
 
 
 
@@ -28,19 +34,42 @@ Button btn_go;
 
         btn_go.setOnClickListener(viev->{
 
-            DBHelper helper=new DBHelper(this);
-            SQLiteDatabase database = helper.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            ContentValues valuesc = new ContentValues();
-            values.put(DBHelper.NOTE_NAME, "1357lang");
-            valuesc.put(DBHelper.NOTE_NAME, "1357city");
-            values.put(DBHelper.KEY_CONTENTION, lang.getText().toString());
-            valuesc.put(DBHelper.KEY_CONTENTION, city.getText().toString());
 
-            database.insert(DBHelper.TABLE_NAME,null,values);
-            database.insert(DBHelper.TABLE_NAME,null,valuesc);
-            Intent g = new Intent(SettingActyvityDB.this, MainActivity.class);
-            startActivity(g);
+String c = city.getText().toString();
+if(lang_en.isChecked()&&lang_ru.isChecked()){
+    Toast.makeText(this, "Выберете  1 язык", Toast.LENGTH_SHORT).show();
+}else cango=true;
+
+if(c==null||c==""||c==" "||c=="   "||c=="    "||c=="     "){
+    cango=false;
+    Toast.makeText(this, "Введите город", Toast.LENGTH_SHORT).show();
+}else cango=true;
+
+if(cango==true){
+    DBsetting helper = new DBsetting(this);
+    SQLiteDatabase database = helper.getWritableDatabase();
+    ContentValues values = new ContentValues();
+
+    if(lang_en.isChecked()){
+        values.put(DBsetting.NAME_SETTING, "lang");
+        values.put(DBsetting.KEY_CONTENTION, "en");
+    }else if(lang_ru.isChecked()){
+        values.put(DBsetting.NAME_SETTING, "lang");
+        values.put(DBsetting.KEY_CONTENTION, "ru");
+    }
+
+
+    database.insert(DBsetting.TABLE_NAME   ,null,values);
+    ContentValues cityval=new ContentValues();
+    cityval.put(DBsetting.NAME_SETTING,"city");
+    cityval.put(DBsetting.KEY_CONTENTION,city.getText().toString());
+database.insert(DBsetting.TABLE_NAME,null,cityval);
+    Intent y =new Intent(SettingActyvityDB.this, MainActivity.class);
+    startActivity(y);
+    helper.close();
+}
+
+
         });
 
 

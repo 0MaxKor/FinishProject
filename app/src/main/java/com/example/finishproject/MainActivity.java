@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -47,11 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
 Button goto_notes;
 String spacialString="";
-Button btn_temp;
-EditText et_city;
+TextView tv_city;
 TextView tv_temp;
+String dbs="";
+String weatherCity;
+String language;
 String translateString="";
-int c=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,25 +62,72 @@ int c=0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//if(DBHelper.DATABASE_VERSION==1 && c==0){
-//    Intent t = new Intent(MainActivity.this,SettingActyvityDB.class);
-//    startActivity(t);
-//}
-c++;
-        btn_temp=findViewById(R.id.btntemp);
-        tv_temp=findViewById(R.id.tvtemp);
-         et_city = findViewById(R.id.etcity);
+tv_city=findViewById(R.id.tvCity);
+tv_temp=findViewById(R.id.tvTemp);
+
+        DBsetting setHelper = new DBsetting(this);
+        //DBHelper helper = new DBHelper(this);
+        SQLiteDatabase setdatabase =  setHelper.getWritableDatabase();
+//        SQLiteDatabase database = helper.getWritableDatabase();
+//
+//       setdatabase.delete(DBsetting.TABLE_NAME,null,null);
+//       database.delete(DBHelper.TABLE_NAME,null,null);
+
+        Cursor cursor =setdatabase.query(DBsetting.TABLE_NAME,null,null,null,null,null,null);
+        int nameIndex = cursor.getColumnIndex(DBsetting.NAME_SETTING);
+        if (cursor.moveToFirst()){
+
+            do {
+            dbs+= cursor.getString(nameIndex);
+
+
+            }while (cursor.moveToNext());
+
+        }else
+            cursor.close();
+if(dbs==""||dbs==null){
+    Intent g = new Intent(MainActivity.this, SettingActyvityDB.class);
+    startActivity(g);
+}
+
+        Log.i("DATABB",dbs);
+        setHelper.close();
         goto_notes = findViewById(R.id.goto_Notes);
 
-
-
-
-        DBHelper helper = new DBHelper(this);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.openweathermap.org/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        DBsetting dBsetting = new DBsetting(this);
+
+        SQLiteDatabase sqLiteDatabase = dBsetting.getWritableDatabase();
+        Cursor cur =sqLiteDatabase.query(DBsetting.TABLE_NAME,null,null,null,null,null,null);
+
+        if (cursor.moveToFirst()){
+            int setnameIndex = cursor.getColumnIndex(DBsetting.NAME_SETTING);
+            int setcontIndex = cursor.getColumnIndex(DBsetting.KEY_CONTENTION);
+            do {
+                if(cursor.getString(setnameIndex).equals("lang")){
+                    language=cursor.getString(setcontIndex);
+                }if(cursor.getString(setnameIndex).equals("city")){
+                    weatherCity=cursor.getString(setcontIndex);
+                }
+
+
+            }while (cursor.moveToNext());
+
+        }else
+            cursor.close();
+        dBsetting.close();
+
+
+        if(dbs==""||dbs==null){
+            Intent g = new Intent(MainActivity.this, SettingActyvityDB.class);
+            startActivity(g);
+        }
+
+        Log.i("WEATHERC",language+" "+weatherCity);
 
 
 
@@ -86,40 +135,6 @@ c++;
                 .baseUrl("https://www.googleapis.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
-
-
-
-
-
-        btn_temp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Call<Weather> cq = wservice.w(et_city.getText().toString(),"like","1ddd6aec17416c218d71d7b9e2cb3b0a");
-//                cq.enqueue(new Callback<Weather>() {
-//                    @Override
-//                    public void onResponse(Call<Weather> call, Response<Weather> response) {
-//
-//                    city_weather=response.body().list.get(0).weather.get(0).main;
-//                    city_name=response.body().list.get(0).name;
-//                    city_temperature=(int)((response.body().list.get(0).main.temp)-273);
-//
-//
-//                        Toast.makeText(MainActivity.this, city_name+", t="+(int)((response.body().list.get(0).main.temp)-273)+", "+city_weather, Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<Weather> call, Throwable t) {
-//                        Log.e("tagrr", t.getMessage());
-//                    }
-//                });
-
-defWeather(retrofit,"Ivanovo",2);
-translate(transRet,spacialString, "en", "");
-Log.i("WEATHER",translateString);
-
-            }
-        });
         goto_notes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,7 +143,6 @@ Log.i("WEATHER",translateString);
             }
         });
         // http://api.openweathermap.org/data/2.5/find/?q=Ivanovo&type=like&APPID=1ddd6aec17416c218d71d7b9e2cb3b0a
-
     }
 
 
@@ -161,7 +175,7 @@ Log.i("WEATHER",translateString);
             }
         });
 
-
+//return spacialString;
     }public void translate(Retrofit transRet, String text, String from, String to){
 
         TranslateLinker translator = transRet.create(TranslateLinker.class);
@@ -182,6 +196,8 @@ Log.i("WEATHER",translateString);
                 Log.i("trans", "fail");
             }
         });
+
+
     }
 
 }

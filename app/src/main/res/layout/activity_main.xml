@@ -7,32 +7,51 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:background="#5292AF"/>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_weight="7"
+       android:orientation="horizontal"
+       >
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="100dp"
+           android:layout_weight="1"
+           android:orientation="vertical">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:id="@+id/tvCity"
+               android:text="City"
+               android:textSize="40dp"/>
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:id="@+id/tvTemp"
+               android:textSize="40dp"
+               android:text="Temp"/>
+       </LinearLayout>
+
+       <ImageView
+           android:layout_width="100dp"
+           android:layout_height="100dp"
+
+           />
+   </LinearLayout>
 
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="City"
-        android:id="@+id/etcity"
-        />
 
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TEMPERATURE:"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvtemp"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btntemp"
-        android:text="Определить погоду"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -41,6 +60,7 @@
         android:layout_centerVertical="true"
         android:text="Заметки"
         android:id="@+id/goto_Notes"
+        android:layout_weight="1"
         />
 
 

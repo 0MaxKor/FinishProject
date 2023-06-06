@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyNoteActivity"
+    tools:context=".CorrectNoteActivity"
     android:orientation="vertical"
     android:background="#C7EEFF">
 
@@ -20,17 +20,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Название: "
-        android:id="@+id/etName"/>
+        android:id="@+id/etName_cor"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Содержание: "
-        android:id="@+id/etContention"/>
+        android:id="@+id/etContention_cor"/>
     <CheckBox
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Отметить как важное"
-        android:id="@+id/ch_importantOrNot"/>
+        android:id="@+id/ch_importantOrNot_cor"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -51,12 +51,12 @@
         android:background="#601BFA"
         android:gravity="center"></TextView>
     <Button
-    android:layout_width="200dp"
-    android:layout_height="70dp"
-    android:text="Добавить"
-    android:id="@+id/btnAdd"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:text="Изменить"
+        android:id="@+id/btnChange_cor"
         android:gravity="center"
         android:layout_gravity="center"
-    android:backgroundTint="#4CAF50"/>
+        android:backgroundTint="#4CAF50"/>
 
 </LinearLayout>

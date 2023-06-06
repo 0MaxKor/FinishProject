@@ -16,6 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String  KEY_ID="_id";
     public static final String  KEY_CONTENTION="contention";
     public static final String  KEY_DATE="date";
+    public static final String IS_IMPORTANT="isImportant";
 
 
 
@@ -28,8 +29,9 @@ public class DBHelper extends SQLiteOpenHelper {
         String query = "CREATE TABLE " + TABLE_NAME + " (" +
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 NOTE_NAME + " TEXT, " +
-                KEY_DATE + " TEXT, " +
-                KEY_CONTENTION + " TEXT); ";
+                KEY_DATE + " INTEGER, " +
+                KEY_CONTENTION + " TEXT, "+
+                IS_IMPORTANT + " INTEGER);";
         db.execSQL(query);
     }
 
