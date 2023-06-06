@@ -402,5 +402,9 @@ r=d;
         }else return 0;
     return r;
     }
+   public void backa(View v){
+        Intent o = new Intent(NoteLobbyActivity.this, MainActivity.class);
+        startActivity(o);
+    }
 
 }

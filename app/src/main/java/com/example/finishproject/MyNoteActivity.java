@@ -60,9 +60,7 @@ noteBase = new NoteBase(this);
         ArrayAdapter<String> adapter = new  ArrayAdapter<>(this, android.R.layout.simple_list_item_1, array_of_names);
 
 
-        //SQLiteDatabase database = noteBase.getWritableDatabase();
-//                String query="DELETE FROM " + NoteBase.TABLE_NAME + " WHERE " + NoteBase.NOTE_NAME + " LIKE '"+name+"'";
-//                database.execSQL(query);
+
 
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {

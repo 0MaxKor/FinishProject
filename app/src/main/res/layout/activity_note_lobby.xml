@@ -53,14 +53,29 @@
 
     </LinearLayout>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+
+        <Button
+            android:id="@+id/btn_addAndDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="#4CAF50"
+            android:onClick="addAndDelete"
+            android:text="Добавить заметку" />
+    </LinearLayout>
     <Button
-        android:id="@+id/btn_addAndDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:backgroundTint="#4CAF50"
-        android:onClick="addAndDelete"
-        android:text="Добавить заметку" />
+        android:text="Назад"
+        android:onClick="backa"/>
 
 
 </LinearLayout>

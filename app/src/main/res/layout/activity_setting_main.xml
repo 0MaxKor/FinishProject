@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingMainActivity"
+    android:layout_weight="1"
+    android:orientation="vertical">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etcity_forset_set"
+        android:hint="Поменять город:"
+        android:textSize="20dp"
+        android:layout_weight="1"
+        android:textColorHint="#26DAF1"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="#26DAF1"
+        android:text="Поменять язык:"
+        android:textSize="20dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="455dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="English"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:id="@+id/ch_en_set"
+            />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="Русский"
+            android:textSize="20dp"
+            android:id="@+id/ch_ru_set"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:text="Готово"
+        android:layout_gravity="center"
+        android:id="@+id/ready_set"
+        android:backgroundTint="#30C857"/>
+
+</LinearLayout>

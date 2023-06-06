@@ -9,9 +9,13 @@
 
 <TextView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:background="#5292AF"/>
+    android:layout_height="70dp"
+    android:background="#5292AF"
+    android:id="@+id/tvDate"
+    android:textSize="30dp"
+    android:textColor="@color/white"
+    android:gravity="center"
+    android:layout_gravity="center"/>
 
    <LinearLayout
        android:layout_width="match_parent"
@@ -43,25 +47,52 @@
        <ImageView
            android:layout_width="100dp"
            android:layout_height="100dp"
+           android:id="@+id/imgv"/>
 
            />
    </LinearLayout>
 
 
+<CalendarView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/cv_mainCalendar"/>
 
 
-
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_weight="1"
+    android:layout_gravity="center"
+    android:gravity="center">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="Заметки"
         android:id="@+id/goto_Notes"
-        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_gravity="center"
         />
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Настройки"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/goto_Settings"
+        android:onClick="settings"/>
+</LinearLayout>
+
+
 
 
 
