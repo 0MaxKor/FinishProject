@@ -66,12 +66,9 @@ tv_city=findViewById(R.id.tvCity);
 tv_temp=findViewById(R.id.tvTemp);
 
         DBsetting setHelper = new DBsetting(this);
-        //DBHelper helper = new DBHelper(this);
+
         SQLiteDatabase setdatabase =  setHelper.getWritableDatabase();
-//        SQLiteDatabase database = helper.getWritableDatabase();
-//
-//       setdatabase.delete(DBsetting.TABLE_NAME,null,null);
-//       database.delete(DBHelper.TABLE_NAME,null,null);
+
 
         Cursor cursor =setdatabase.query(DBsetting.TABLE_NAME,null,null,null,null,null,null);
         int nameIndex = cursor.getColumnIndex(DBsetting.NAME_SETTING);

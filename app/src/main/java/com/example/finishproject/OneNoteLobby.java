@@ -18,6 +18,9 @@ Button delete;
 TextView tvName;
 TextView tvCont;
 TextView tvDate;
+String final_name="";
+    String final_cont="";
+    String final_date="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,28 +35,27 @@ TextView tvDate;
 
         String name=getIntent().getStringExtra("name");
 
-        DBHelper dbHelper = new DBHelper(this);
-        SQLiteDatabase database = dbHelper.getWritableDatabase();
-        Cursor cursor = database.query(DBHelper.TABLE_NAME,null,null,null,null,null,null);
-        String final_name="";
-        String final_cont="";
-        String final_date="";
+        NoteBase noteBase = new NoteBase(this);
+        SQLiteDatabase database = noteBase.getWritableDatabase();
+        Cursor cursor = database.query(NoteBase.TABLE_NAME,null,null,null,null,null,null);
+
         if(cursor.moveToFirst()){
-            int nameIndex=cursor.getColumnIndex(DBHelper.NOTE_NAME);
-            int contentionIndex=cursor.getColumnIndex(DBHelper.KEY_CONTENTION);
-            int dateIndex=cursor.getColumnIndex(DBHelper.KEY_DATE);
+            int nameIndex=cursor.getColumnIndex(NoteBase.NAME_OF_NOTE);
+            int contentionIndex=cursor.getColumnIndex(NoteBase.CONTENTION_OF_NOTE);
+            int dateIndex=cursor.getColumnIndex(NoteBase.DATE_OF_NOTE);
             do{
                 String readable_note_name = cursor.getString(nameIndex);
                 if(readable_note_name.equals(name)){
                     final_name=name;
                     final_cont= cursor.getString(contentionIndex);
-                    long readable_date = cursor.getLong(dateIndex);
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(readable_date);
-                    String year = calendar.get(Calendar.YEAR)+"";
-                    String day = calendar.get(Calendar.DAY_OF_MONTH)+"";
-                    String month = calendar.get(Calendar.MONTH)+"";
-                    final_date=year+" "+month+" "+day;
+                    final_date = cursor.getString(dateIndex);
+//                    long readable_date = cursor.getLong(dateIndex);
+//                    Calendar calendar = Calendar.getInstance();
+//                    calendar.setTimeInMillis(readable_date);
+//                    String year = calendar.get(Calendar.YEAR)+"";
+//                    String day = calendar.get(Calendar.DAY_OF_MONTH)+"";
+//                    String month = calendar.get(Calendar.MONTH)+"";
+//                    final_date=year+" "+month+" "+day;
                 }
             }while (cursor.moveToNext());
         }
@@ -61,7 +63,7 @@ TextView tvDate;
         tvName.setText(final_name);
         tvCont.setText(final_cont);
         tvDate.setText(final_date);
-
+noteBase.close();
 
         change.setOnClickListener(view->{
 
@@ -69,6 +71,14 @@ TextView tvDate;
 
         });
         delete.setOnClickListener(view->{
+            NoteBase noteBase1 = new NoteBase(this);
+            SQLiteDatabase database1 = noteBase1.getWritableDatabase();
+         String query = "DELETE FROM "+NoteBase.TABLE_NAME+" WHERE "+NoteBase.NAME_OF_NOTE+" LIKE '"+final_name+"'";
+         database1.execSQL(query);
+         noteBase1.close();
+
+         Intent u = new Intent(OneNoteLobby.this, NoteLobbyActivity.class);
+         startActivity(u);
 
 
 

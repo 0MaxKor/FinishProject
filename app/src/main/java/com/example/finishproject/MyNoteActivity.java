@@ -31,15 +31,16 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyNoteActivity extends AppCompatActivity {
-    DBHelper dbHelper;
+   NoteBase noteBase;
     CheckBox isimportant;
 
-    long timeinm;
+    String timeinm;
 
     Button add;
     EditText etName;
     EditText etContention;
     CalendarView calendarView;
+    boolean iswrite=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,59 +49,67 @@ public class MyNoteActivity extends AppCompatActivity {
         ArrayList<String>array_of_names = new ArrayList<>();
         isimportant=findViewById(R.id.ch_importantOrNot);
         calendarView = findViewById(R.id.cv_calendarView);
- setDate(calendarView,2024,6,6);
 
         add = findViewById(R.id.btnAdd);
 
         etName  = findViewById(R.id.etName);
         etContention  = findViewById(R.id.etContention);
-
-        dbHelper = new DBHelper(this);
+//
+noteBase = new NoteBase(this);
 
         ArrayAdapter<String> adapter = new  ArrayAdapter<>(this, android.R.layout.simple_list_item_1, array_of_names);
 
 
-        //SQLiteDatabase database = dbHelper.getWritableDatabase();
-//                String query="DELETE FROM " + DBHelper.TABLE_NAME + " WHERE " + DBHelper.NOTE_NAME + " LIKE '"+name+"'";
+        //SQLiteDatabase database = noteBase.getWritableDatabase();
+//                String query="DELETE FROM " + NoteBase.TABLE_NAME + " WHERE " + NoteBase.NOTE_NAME + " LIKE '"+name+"'";
 //                database.execSQL(query);
 
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                Calendar c = Calendar.getInstance();
-                c.set(Calendar.YEAR,year);
-                c.set(Calendar.MONTH,month);
-                c.set(Calendar.DAY_OF_MONTH,dayOfMonth);
 
-                timeinm=c.getTimeInMillis();
+timeinm = year + " "+month+" "+dayOfMonth;
             }
         });
 
         add.setOnClickListener(viev-> {
-
-
+        iswrite=true;
 
             String name = etName.getText().toString();
             String contention = etContention.getText().toString();
-            if(name!=""||name!=" "||contention!=""||contention!=" "||name!=null||contention!=null){
+            SQLiteDatabase database = noteBase.getWritableDatabase();
+            
+            Cursor cursor = database.query(NoteBase.TABLE_NAME,null,null,null,null,null,null);
+            if(cursor.moveToFirst()){
+                int nameIndex=cursor.getColumnIndex(NoteBase.NAME_OF_NOTE);
+                do {
+                    String dbname=cursor.getString(nameIndex);
+                    if(dbname.equals(name)){
+                        iswrite=false;
+                        Toast.makeText(this, "Выберете другое имя", Toast.LENGTH_SHORT).show();
+                    }
+                }while (cursor.moveToNext());
+            }
+            
+            if((name!=""&&name!=" "&&contention!=""&&contention!=" "&&name!=null&&contention!=null)&&iswrite==true){
 
-                SQLiteDatabase database = dbHelper.getWritableDatabase();
+                
                 ContentValues values = new ContentValues();
 
-                values.put(DBHelper.NOTE_NAME, name);
-                values.put(DBHelper.KEY_CONTENTION, contention);
-                values.put(DBHelper.KEY_DATE, timeinm);
+                values.put(NoteBase.NAME_OF_NOTE, name);
+                values.put(NoteBase.CONTENTION_OF_NOTE, contention);
+                values.put(NoteBase.DATE_OF_NOTE, timeinm);
                 if(isimportant.isChecked()){
-                    values.put(DBHelper.IS_IMPORTANT,1);
+                    values.put(NoteBase.IMPORTANT,1);
                 }else{
-                    values.put(DBHelper.IS_IMPORTANT,0);
+                            values.put(NoteBase.IMPORTANT,0);
                 }
-                database.insert(DBHelper.TABLE_NAME,null, values);
+                database.insert(NoteBase.TABLE_NAME,null, values);
 
                 Toast.makeText(this, "Создана 1 заметка", Toast.LENGTH_SHORT).show();
 
-                dbHelper.close();
+                noteBase.close();
             }else {
                 Toast.makeText(this, "Заполните все поля ", Toast.LENGTH_SHORT).show();
                 //-2183 40 270 -2192 49 243 -1993 61 7 5
@@ -120,6 +129,11 @@ void setDate(CalendarView calendarView, int year,int month,int day){
     void setColorDate(CalendarView calendarView, Drawable drawable, long timeInMillis){
         Date date = new Date(timeInMillis);
     calendarView.setBackgroundDrawable(drawable);
+
+    }
+    public void back(View view){
+        Intent y = new Intent(MyNoteActivity.this, NoteLobbyActivity.class);
+        startActivity(y);
 
     }
 }
