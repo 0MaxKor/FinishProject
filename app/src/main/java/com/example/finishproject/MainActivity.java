@@ -57,11 +57,14 @@ TextView tv_city;
 TextView tv_temp;
 ImageView imgv;
 String dbs="";
+String spasialLang="ru";
 String weatherCity;
 TextView tvDate;
 String language;
+Button goto_settings;
 String translateString="";
 Retrofit transRet;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,18 +72,27 @@ Retrofit transRet;
        StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        goto_settings=findViewById(R.id.goto_Settings_J);
         imgv=findViewById(R.id.imgv);
 calendarView=findViewById(R.id.cv_mainCalendar);
 tvDate=findViewById(R.id.tvDate);
 tv_city=findViewById(R.id.tvCity);
 tv_temp=findViewById(R.id.tvTemp);
 
+defLang();
+defLang();
+
 
         DBsetting setHelper = new DBsetting(this);
 
         SQLiteDatabase setdatabase =  setHelper.getWritableDatabase();
-
-
+//setdatabase.delete(DBsetting.TABLE_NAME,null,null);
+//
+//NoteBase noteBase = new NoteBase(this);
+//
+//        SQLiteDatabase sqLiteDatabaseq =  noteBase.getWritableDatabase();
+//        setdatabase.delete(DBsetting.TABLE_NAME,null,null);
+//        sqLiteDatabaseq.delete(NoteBase.TABLE_NAME,null,null);
         Cursor cursor =setdatabase.query(DBsetting.TABLE_NAME,null,null,null,null,null,null);
         int nameIndex = cursor.getColumnIndex(DBsetting.NAME_SETTING);
         if (cursor.moveToFirst()){
@@ -97,6 +109,9 @@ if(dbs==""||dbs==null){
     Intent g = new Intent(MainActivity.this, SettingActyvityDB.class);
     startActivity(g);
 }
+
+
+
 
         Log.i("DATABB",dbs);
         setHelper.close();
@@ -144,6 +159,14 @@ transRet = new Retrofit.Builder()
                 .build();
         if(weatherCity!=null)
        Log .i("anss",defWeather(retrofit,weatherCity,2));
+
+        goto_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent e= new Intent(MainActivity.this, SettingMainActivity.class);
+                startActivity(e);
+            }
+        });
         goto_notes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -151,6 +174,14 @@ transRet = new Retrofit.Builder()
                 startActivity(i);
             }
         });
+        if(spasialLang.equals("ru")){
+            goto_notes.setText("Заметки");
+            goto_settings.setText("Настройки");
+
+        }else {
+            goto_notes.setText("Notes");
+            goto_settings.setText("Settings");
+        }
         dataC(calendarView,tvDate);
         // http://api.openweathermap.org/data/2.5/find/?q=Ivanovo&type=like&APPID=1ddd6aec17416c218d71d7b9e2cb3b0a
     }
@@ -167,23 +198,33 @@ transRet = new Retrofit.Builder()
             @Override
             public void onResponse(Call<Weather> call, Response<Weather> response) {
 
-                    tv_city.setText(response.body().list.get(0).name);
-
-                    translate(transRet,response.body().list.get(0).name,"en","ru",tv_city);
 
 
 
-               if(response.body().list.get(0).weather.get(0).main.equals("Clear")) {
-                   tv_temp.setText("t="+(int)(response.body().list.get(0).main.temp-273)+", Ясно");
-               }else if(response.body().list.get(0).weather.get(0).main.equals("Rain")) {
-                   tv_temp.setText("t="+(int)(response.body().list.get(0).main.temp-273)+", Дождь");
-               } else if(response.body().list.get(0).weather.get(0).main.equals("Snow")){
-                   tv_temp.setText("t="+(int)(response.body().list.get(0).main.temp-273)+", Снег");
-               }else if(response.body().list.get(0).weather.get(0).main.equals("Clouds")){
-                   tv_temp.setText("t="+(int)(response.body().list.get(0).main.temp-273)+", Облачно");
-               }
 
-                    if(response.body().list.get(0).weather.get(0).main.equals("Clouds")){
+
+
+if(spasialLang.equals("ru")){
+    translate(transRet,response.body().list.get(0).name,"en","ru",tv_city);
+
+
+    if(response.body().list.get(0).weather.get(0).main.equals("Clear")) {
+        tv_temp.setText("t="+(int)(response.body().list.get(0).main.temp-273)+", Ясно");
+    }else if(response.body().list.get(0).weather.get(0).main.equals("Rain")) {
+        tv_temp.setText("t="+(int)(response.body().list.get(0).main.temp-273)+", Дождь");
+    } else if(response.body().list.get(0).weather.get(0).main.equals("Snow")){
+        tv_temp.setText("t="+(int)(response.body().list.get(0).main.temp-273)+", Снег");
+    }else if(response.body().list.get(0).weather.get(0).main.equals("Clouds")){
+        tv_temp.setText("t="+(int)(response.body().list.get(0).main.temp-273)+", Облачно");
+    }
+} else if (spasialLang.equals("en")) {
+    tv_temp.setText("t="+(int)(response.body().list.get(0).main.temp-273)+", "+response.body().list.get(0).weather.get(0).main);
+
+    tv_city.setText(response.body().list.get(0).name);
+}
+
+
+                if(response.body().list.get(0).weather.get(0).main.equals("Clouds")){
                         imgv.setImageResource(R.drawable.clouds);
 
                     }else if(response.body().list.get(0).weather.get(0).main.equals("Clear")){
@@ -233,10 +274,7 @@ return spacialString;
 
 
     }
-    public void settings(View v){
-        Intent e= new Intent(MainActivity.this, SettingMainActivity.class);
-        startActivity(e);
-    }void dataC(CalendarView cv, TextView tv){
+    void dataC(CalendarView cv, TextView tv){
         long date = cv.getDate();
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(date);
@@ -274,6 +312,32 @@ return spacialString;
         day = day1+"-e";
         year=year1+"";
         tv.setText(day+" "+month+" "+year);
+    }
+    public void  defLang(){
+        String c="ru";
+        DBsetting helper= new DBsetting(this);
+        SQLiteDatabase langDatabase = helper.getWritableDatabase();
+
+        Cursor cursor = langDatabase.query(DBsetting.TABLE_NAME,null,null,null,null,null,null);
+        int setIn=cursor.getColumnIndex(DBsetting.NAME_SETTING);
+        int langIn = cursor.getColumnIndex(DBsetting.KEY_CONTENTION);
+        if(cursor.moveToFirst()){
+            if(cursor.getString(setIn).equals("lang")){
+                c= cursor.getString(langIn);
+                c= cursor.getString(langIn);
+                c= cursor.getString(langIn);
+                c= cursor.getString(langIn);
+                c= cursor.getString(langIn);
+
+
+            }while (cursor.moveToNext()) ;
+        }
+        spasialLang=c;
+        spasialLang=c;
+        spasialLang=c;
+        spasialLang=c;
+        spasialLang=c;
+        spasialLang=c;
     }
 
 }

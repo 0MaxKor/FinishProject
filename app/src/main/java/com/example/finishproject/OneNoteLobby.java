@@ -17,10 +17,15 @@ Button change;
 Button delete;
 TextView tvName;
 TextView tvCont;
+TextView lanName;
+TextView lanCont;
+TextView lanAdd;
 TextView tvDate;
 String final_name="";
     String final_cont="";
     String final_date="";
+     String spasialLang="ru";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +33,9 @@ String final_name="";
 
         change=findViewById(R.id.btnChange_one_note);
         delete=findViewById(R.id.btnDelete_one_note);
-
+lanAdd=findViewById(R.id.tvadded);
+lanCont=findViewById(R.id.tvcont);
+lanName=findViewById(R.id.tvname);
         tvCont=findViewById(R.id.tv_cont_one_note);
         tvDate=findViewById(R.id.tv_date_one_note);
         tvName=findViewById(R.id.tv_name_one_note);
@@ -59,7 +66,7 @@ String final_name="";
                 }
             }while (cursor.moveToNext());
         }
-
+defLang();;
         tvName.setText(final_name);
         tvCont.setText(final_cont);
         tvDate.setText(final_date);
@@ -67,6 +74,9 @@ noteBase.close();
 
         change.setOnClickListener(view->{
 
+            Intent s = new Intent(OneNoteLobby.this,CorrectNoteActivity.class);
+            s.putExtra("name1",name);
+            startActivity(s);
 
 
         });
@@ -83,5 +93,44 @@ noteBase.close();
 
 
         });
+        if(spasialLang.equals("ru")){
+            lanName.setText("Имя:");
+            lanCont.setText("Содержание:");
+            lanAdd.setText("Добавлено на:");
+            change.setText("Изменить");
+            delete.setText("Удалить");
+        }else{
+            lanName.setText("Name:");
+            lanCont.setText("Contention:");
+            lanAdd.setText("Added to:");
+            change.setText("Correct");
+            delete.setText("delete");
+        }
+    }
+    public void  defLang(){
+        String c="ru";
+        DBsetting helper= new DBsetting(this);
+        SQLiteDatabase langDatabase = helper.getWritableDatabase();
+
+        Cursor cursor = langDatabase.query(DBsetting.TABLE_NAME,null,null,null,null,null,null);
+        int setIn=cursor.getColumnIndex(DBsetting.NAME_SETTING);
+        int langIn = cursor.getColumnIndex(DBsetting.KEY_CONTENTION);
+        if(cursor.moveToFirst()){
+            if(cursor.getString(setIn).equals("lang")){
+                c= cursor.getString(langIn);
+                c= cursor.getString(langIn);
+                c= cursor.getString(langIn);
+                c= cursor.getString(langIn);
+                c= cursor.getString(langIn);
+
+
+            }while (cursor.moveToNext()) ;
+        }
+        spasialLang=c;
+        spasialLang=c;
+        spasialLang=c;
+        spasialLang=c;
+        spasialLang=c;
+        spasialLang=c;
     }
 }

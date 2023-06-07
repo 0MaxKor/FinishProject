@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -35,14 +36,19 @@ public class NoteLobbyActivity extends AppCompatActivity {
     String translateString;
     ListView lvNotes;
     Spinner spinner;
+    TextView tvTitle;
+    TextView tvSortBy;
 
     String action;
+    Button btbach;
     int countImportant=0;
     ArrayList<String>noteArrayList;
     String[] actions = {"Дате","Важности","Только важные","Только второстепенные","Все заметки"};
 
     NoteBase noteBase;
-    String spacialString="";
+    String spacialString="ru";
+    String spasialLang;
+    Button btnAddote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +56,18 @@ public class NoteLobbyActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_lobby);
+        btnAddote = findViewById(R.id.btn_addAndDelete);
         spinner=findViewById(R.id.spinner);
         lvNotes=findViewById(R.id.lvNotes);
         noteArrayList = new ArrayList<>();
         int city_temp = getIntent().getIntExtra("c_temp",1);
         String city_name = getIntent().getStringExtra("c_name");
         String city_weather = getIntent().getStringExtra("c_desc");
-        Toast.makeText(this, city_name+", "+city_weather+", temperature = "+city_temp+" degrees.", Toast.LENGTH_SHORT).show();
+tvTitle = findViewById(R.id.tvTitle);
+tvSortBy = findViewById(R.id.tvSortby);
+btbach = findViewById(R.id.btnBacka);
 
-
-
+defLang();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,noteArrayList);
 noteBase= new NoteBase(this);
@@ -77,7 +85,14 @@ noteBase= new NoteBase(this);
 
                 action = (String)parent.getItemAtPosition(position);
                 Toast.makeText(NoteLobbyActivity.this, action, Toast.LENGTH_SHORT).show();
-                refresh(lvNotes,action);
+
+                try {
+                    refresh(lvNotes,action);
+                }catch (NullPointerException e){
+
+                }
+
+
             }
 
             @Override
@@ -132,7 +147,7 @@ if(cursor.getInt(importantIndex)==1){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-             //   Toast.makeText(NoteLobbyActivity.this,noteArrayList.get(i).toString(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(NoteLobbyActivity.this,noteArrayList.get(i).toString(), Toast.LENGTH_SHORT).show();
 Intent p = new Intent(NoteLobbyActivity.this, OneNoteLobby.class);
 p.putExtra("name",noteArrayList.get(i).toString());
 startActivity(p);
@@ -142,6 +157,22 @@ startActivity(p);
             }
 
         });
+
+
+
+        if(spasialLang.equals("ru")){
+            btbach.setText("Назад");
+            btnAddote.setText("Добавить заметку");
+            tvTitle.setText("Заметки");
+            tvSortBy.setText("Сортировать по:");
+        }else{
+            btbach.setText("Back");
+            btnAddote.setText("Add note");
+            tvTitle.setText("Notes");
+            tvSortBy.setText("Sort by:");
+        }
+
+
     }
     public void addAndDelete(View view){
         Intent u = new Intent(NoteLobbyActivity.this, MyNoteActivity.class);
@@ -199,7 +230,7 @@ startActivity(p);
 
 
     }
-    void refresh(ListView listView,String a){
+    void refresh(ListView listView,String a)throws  NullPointerException{
         ArrayList<String>arrayList=new ArrayList<>();
 
         if(a.equals("Дате")){
@@ -242,8 +273,7 @@ int[]keys1 = new int[keys.size()];
             }
            Arrays.sort(keys1);
 
-            for (Integer i:
-                 keys1) {
+            for (Integer i:keys1) {
                 arrayList.add(map.get(i));
             }
 
@@ -342,7 +372,7 @@ int[]keys1 = new int[keys.size()];
         listView.setAdapter(adapter);
     }
 
-    public int getDate(String date, String what) {
+    public int getDate(String date, String what){
 int r=0;
 
         int y=0,m=0,d=0;
@@ -401,6 +431,35 @@ int r=0;
 r=d;
         }else return 0;
     return r;
+    }
+    public void  defLang(){
+        String c="ru";
+        DBsetting helper= new DBsetting(this);
+        SQLiteDatabase langDatabase = helper.getWritableDatabase();
+
+        Cursor cursor = langDatabase.query(DBsetting.TABLE_NAME,null,null,null,null,null,null);
+        int setIn=cursor.getColumnIndex(DBsetting.NAME_SETTING);
+        int langIn = cursor.getColumnIndex(DBsetting.KEY_CONTENTION);
+        if(cursor.moveToFirst()){
+            if(cursor.getString(setIn).equals("lang")){
+                c= cursor.getString(langIn);
+                c= cursor.getString(langIn);
+                c= cursor.getString(langIn);
+                c= cursor.getString(langIn);
+                c= cursor.getString(langIn);
+
+
+            }while (cursor.moveToNext()) ;
+        }
+
+        spasialLang = c;
+        spasialLang=c;
+        spasialLang=c;
+        spasialLang=c;
+
+
+        spasialLang=c;
+        spasialLang=c;
     }
    public void backa(View v){
         Intent o = new Intent(NoteLobbyActivity.this, MainActivity.class);

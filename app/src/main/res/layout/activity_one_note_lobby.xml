@@ -11,6 +11,7 @@
     android:layout_height="wrap_content"
     android:layout_weight="1"
     android:text="Имя:"
+    android:id="@+id/tvname"
     android:textColor="@color/white"
     android:textSize="20dp"
     android:background="#6016E6"/>
@@ -19,12 +20,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_name_one_note"
         android:layout_weight="3"
+
         android:background="#A0CFE4"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="#6016E6"
+        android:id="@+id/tvcont"
         android:text="Содержание:"
         android:textColor="@color/white"
         android:textSize="20dp"/>
@@ -40,6 +43,7 @@
     android:layout_weight="1"
     android:background="#6016E6"
         android:text="Добавлена на:"
+        android:id="@+id/tvadded"
         android:textColor="@color/white"
         android:textSize="20dp"/>
     <TextView

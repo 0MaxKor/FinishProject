@@ -18,6 +18,7 @@
             android:layout_height="60dp"
             android:textSize="25dp"
             android:text="Заметки"
+            android:id="@+id/tvTitle"
             android:gravity="center"
             android:textColor="#FFFFFF"
             android:textStyle="italic"
@@ -35,6 +36,7 @@
                 android:layout_weight="1"
                 android:background="#673AB7"
                 android:text="Сортировать по:"
+                android:id="@+id/tvSortby"
                 android:textColor="@color/white"
                 android:textSize="20dp"/>
             <Spinner
@@ -75,7 +77,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Назад"
-        android:onClick="backa"/>
+        android:onClick="backa"
+        android:id="@+id/btnBacka"/>
 
 
 </LinearLayout>

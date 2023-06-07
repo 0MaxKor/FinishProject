@@ -22,6 +22,7 @@
         android:layout_weight="1"
         android:textColor="#26DAF1"
         android:text="Поменять язык:"
+        android:id="@+id/tvChangeL"
         android:textSize="20dp"/>
     <LinearLayout
         android:layout_width="match_parent"

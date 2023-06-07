@@ -88,8 +88,7 @@
         android:text="Настройки"
         android:layout_gravity="center"
         android:gravity="center"
-        android:id="@+id/goto_Settings"
-        android:onClick="settings"/>
+        android:id="@+id/goto_Settings_J"/>
 </LinearLayout>
 
 

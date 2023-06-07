@@ -41,6 +41,7 @@ public class MyNoteActivity extends AppCompatActivity {
     EditText etContention;
     CalendarView calendarView;
     boolean iswrite=true;
+     String spasialLang="ru";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ noteBase = new NoteBase(this);
         ArrayAdapter<String> adapter = new  ArrayAdapter<>(this, android.R.layout.simple_list_item_1, array_of_names);
 
 
-
+defLang();;
 
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -115,6 +116,48 @@ timeinm = year + " "+month+" "+dayOfMonth;
 
         });
 
+        if(spasialLang.equals("ru")){
+            isimportant.setHint("Отметить как важное");
+            add.setText("Добавить");
+            etContention.setHint("Содержание");
+            etName.setHint("Имя");
+        }else{
+            isimportant.setHint("Note as important");
+            add.setText("Add");
+            etContention.setHint("Contention");
+            etName.setHint("Name");
+        }
+
+}
+
+
+public void  defLang(){
+    String c="ru";
+    DBsetting helper= new DBsetting(this);
+    SQLiteDatabase langDatabase = helper.getWritableDatabase();
+
+    Cursor cursor = langDatabase.query(DBsetting.TABLE_NAME,null,null,null,null,null,null);
+    int setIn=cursor.getColumnIndex(DBsetting.NAME_SETTING);
+    int langIn = cursor.getColumnIndex(DBsetting.KEY_CONTENTION);
+    if(cursor.moveToFirst()){
+        if(cursor.getString(setIn).equals("lang")){
+            c= cursor.getString(langIn);
+            c= cursor.getString(langIn);
+            c= cursor.getString(langIn);
+            c= cursor.getString(langIn);
+            c= cursor.getString(langIn);
+
+
+        }while (cursor.moveToNext()) ;
+    }
+    spasialLang = c;
+    spasialLang=c;
+    spasialLang=c;
+    spasialLang=c;
+
+
+    spasialLang=c;
+    spasialLang=c;
 }
 void setDate(CalendarView calendarView, int year,int month,int day){
     Calendar calendar=Calendar.getInstance();
